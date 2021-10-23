@@ -10,6 +10,12 @@
 - ### list sudo-able binaries
         sudo -l
 
+## Web enumeration
+ - ### fuzz different parts of web URL
+        ffuf -w dns_nameslist.txt -H "Host: FUZZ.acmeitsupport.thm" -u http://10.10.244.57 -fs 2395
+ - ### find directories for a website
+        gobuster -w directory_list.txt -u 10.10.244.57
+
 ## PHP
 
 - ### php reverse shell
